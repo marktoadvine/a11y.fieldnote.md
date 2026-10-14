@@ -36,6 +36,6 @@ That URL tracks main. To fix a schema snapshot, use a known commit SHA instead o
 
 ## Output
 
-Render preserves component references, benchmarks, status, scope, checks/test references, and custom context. Structured reference/custom data appears in YAML code blocks. Note/check anchors use `note-` or `check-` plus a URI-encoded ID.
+Render preserves component references, benchmarks, status, scope, checks/test references, and custom context. Structured reference/custom data appears in YAML code blocks. Note/check anchors use `note-` or `check-` plus a URI-encoded ID. Links must URI-encode that complete anchor ID again so browser fragment decoding reaches the literal anchor; the renderer does this for check-to-note links.
 
 Use `--configuration ID` with render or resolve. Resolve takes exactly one file. Validate/render accept multiple files and report a nonzero exit status for invalid input. Verification-result handling is not included.

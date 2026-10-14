@@ -239,3 +239,24 @@ test('current documentation local links resolve', () => {
     assert.ok(existsSync(resolve(ROOT, dirname(path), target.split('#')[0])), `${path}: ${target}`);
   }
 });
+
+
+test('check links resolve to note anchors after browser fragment decoding', () => {
+  const ids = ['plain-id', 'two words', '名前', 'adresse-é', '100%', 'literal%20name', 'part/section#name', 'a(b)', 'a)b(', 'quoted" & <name>'];
+  const record = {
+    ...minimal(),
+    configurations: [{ id: 'one', name: 'One' }],
+    notes: ids.map(id => ({ id, statement: 'A note.' })),
+    checks: [{ id: 'navigation', notes: ids, method: 'manual', procedure: 'Follow each note link.' }],
+  };
+  for (const configuration of [undefined, 'one']) {
+    const output = markdown(record, configuration);
+    const anchors = [...output.matchAll(/<a id="(note-[^"]+)"><\/a>/g)].map(match => match[1]);
+    const links = [...output.matchAll(/\]\(#([^()\s]+)\)/g)].map(match => match[1]);
+    assert.equal(links.length, ids.length, 'every check reference has a complete Markdown destination');
+    // Browsers percent-decode the fragment once before matching an element ID.
+    const targets = links.map(fragment => decodeURIComponent(new URL('#' + fragment, 'https://example.com/notes').hash.slice(1)));
+    assert.deepEqual(targets, anchors);
+    assert.equal(links[0], 'note-plain-id', 'existing ASCII links remain stable');
+  }
+});

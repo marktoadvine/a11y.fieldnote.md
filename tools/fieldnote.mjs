@@ -87,6 +87,13 @@ function yamlBlock(value) {
 }
 
 
+// Encode the literal anchor ID for a URL fragment; browsers decode it once.
+// Parentheses also need escaping so project-defined IDs cannot break Markdown.
+function noteFragment(id) {
+  return encodeURIComponent('note-' + encodeURIComponent(id))
+    .replace(/[()]/g, char => '%' + char.charCodeAt(0).toString(16).toUpperCase());
+}
+
 function extras(value, known) {
   return Object.fromEntries(Object.entries(value).filter(([key]) => !known.includes(key)));
 }
@@ -137,7 +144,7 @@ export function markdown(record, configuration) {
     for (const item of selected.checks) {
       const original = record.checks.find(entry => entry.id === item.id);
       lines.push(`<a id="check-${encodeURIComponent(item.id)}"></a>`, '', `### ${prose(item.id)}`, '', ...scope(original, record));
-      lines.push(`**Notes:** ${item.notes.map(id => `[${prose(id)}](#note-${encodeURIComponent(id)})`).join(', ')}`, '',
+      lines.push(`**Notes:** ${item.notes.map(id => `[${prose(id)}](#${noteFragment(id)})`).join(', ')}`, '',
         `**Method:** ${prose(item.method)}`, '', prose(item.procedure), '');
       if (item.test) lines.push('**Test reference:**', '', ...yamlBlock(item.test));
       const custom = extras(item, ['id', 'notes', 'method', 'procedure', 'test', 'appliesTo']);
