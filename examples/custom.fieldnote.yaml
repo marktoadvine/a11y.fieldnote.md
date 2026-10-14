@@ -1,19 +1,24 @@
-component: address-entry
+schemaVersion: 0.3.0
+component:
+  id: address-entry
+  platform: web
 language: fr-CA
 framework: project-specific
 notes:
-  - id: adresse-format
-    topic: localisation
-    statement: Accept the address formats used by the people this service supports.
-    reason: Address structure and terminology differ between regions.
-    owner: content and engineering
-    context:
-      region: Canada
-      review-with: local users and accessibility specialists
-    references:
-      - title: Project content guidance
-        path: ./content/address-guidance.md
-        status: draft
-  - id: error-recovery
-    question: How will someone understand and correct an address the service cannot recognize?
-    follow-up: Review with the service team before implementation.
+- id: adresse-format
+  topic: localisation
+  statement: Accept the address formats used by the people this service supports.
+  reason: Address structure and terminology differ between regions.
+  owner: content and engineering
+  context:
+    region: Canada
+    review-with: local users and accessibility specialists
+  references:
+  - title: Project content guidance
+    path: ./content/address-guidance.md
+    status: draft
+  status: decided
+- id: error-recovery
+  question: How will someone understand and correct an address the service cannot recognize?
+  follow-up: Review with the service team before implementation.
+  status: open

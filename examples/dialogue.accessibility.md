@@ -1,10 +1,33 @@
-# confirmation\-dialog — accessibility fieldnotes
+# Confirmation dialog — accessibility fieldnotes
 
-Contextual notes and open questions; not verification results or a conformance claim.
+Component: confirmation\-dialog. Platform: web. Schema version: 0.3.0.
+
+Contextual notes and check definitions; not verification results or a conformance claim.
+
+## Component references
+
+```yaml
+- kind: guidance
+  url: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
+```
+
+## Benchmarks
+
+Sources informing these notes; not a coverage claim.
+
+```yaml
+- name: WCAG
+  version: "2.2"
+  url: https://www.w3.org/TR/WCAG22/
+```
+
+## Notes
 
 <a id="note-accessible-name"></a>
 
-## accessible\-name
+### accessible\-name
+
+**Status:** open
 
 **Topic:** semantics
 
@@ -12,7 +35,9 @@ Contextual notes and open questions; not verification results or a conformance c
 
 <a id="note-initial-focus"></a>
 
-## initial\-focus
+### initial\-focus
+
+**Status:** decided
 
 **Topic:** focus
 
@@ -28,7 +53,9 @@ Contextual notes and open questions; not verification results or a conformance c
 
 <a id="note-return-focus"></a>
 
-## return\-focus
+### return\-focus
+
+**Status:** open
 
 **Topic:** focus
 
@@ -36,7 +63,9 @@ Contextual notes and open questions; not verification results or a conformance c
 
 <a id="note-provide-title"></a>
 
-## provide\-title
+### provide\-title
+
+**Status:** decided
 
 **Statement:** Supply a visible title describing the action\.
 
@@ -45,3 +74,17 @@ Contextual notes and open questions; not verification results or a conformance c
 ```yaml
 owner: consuming team
 ```
+
+## Checks
+
+Procedures to perform, not recorded passes or failures.
+
+<a id="check-initial-focus-check"></a>
+
+### initial\-focus\-check
+
+**Notes:** [initial\-focus](#note-initial-focus)
+
+**Method:** manual
+
+Open the dialog from its trigger and confirm that focus lands on Cancel\.

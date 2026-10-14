@@ -1,9 +1,7 @@
 # Start with one note
 
-Copy [component.fieldnote.yaml](component.fieldnote.yaml) into your project and change the component identifier. Write one question you need to answer.
+Copy [component.fieldnote.yaml](component.fieldnote.yaml), keep schemaVersion, and set the component ID and platform. Write one question.
 
-Keep its ID stable. When you have an answer, add `statement` and optionally `reason`. Add more notes when useful.
+Keep the note ID stable. When decided, set status to decided and add a statement; a reason is optional. For not-applicable, provide a reason. Status itself is optional, and custom statuses are welcome.
 
-Topic and all other fields are optional. Use custom fields for context that matters to your team. No installation, predefined checklist, or status workflow is needed.
-
-The minimum shape is `component: my-component` and `notes: []`; an empty list is only a placeholder.
+Add references, benchmarks, configurations, or checks when they help. Custom fields can hold the language, framework, owner, or other context your project needs. No installation is required.

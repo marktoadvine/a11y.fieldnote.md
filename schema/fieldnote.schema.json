@@ -2,9 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/marktoadvine/accessibility-fieldnote-schema/main/schema/fieldnote.schema.json",
   "title": "Accessibility Fieldnote Schema 0.3.0",
-  "description": "Portable accessibility notes. Only component, notes, and each note's id are required. Custom fields are welcome.",
+  "description": "Portable accessibility notes with component context and optional variant scopes, benchmarks, and check definitions. Custom fields are welcome.",
   "type": "object",
   "required": [
+    "schemaVersion",
     "component",
     "notes"
   ],
@@ -16,11 +17,65 @@
     },
     "schemaVersion": {
       "const": "0.3.0",
-      "description": "Optional format version. Omitted records use the schema selected by the reader."
+      "description": "Required record format version."
     },
     "component": {
-      "$ref": "#/$defs/text",
-      "description": "A project-defined component identifier."
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/text"
+        },
+        "name": {
+          "$ref": "#/$defs/text"
+        },
+        "platform": {
+          "$ref": "#/$defs/text",
+          "description": "Project-defined platform such as web, ios, android, or desktop."
+        },
+        "version": {
+          "$ref": "#/$defs/text"
+        },
+        "references": {
+          "type": "array",
+          "description": "Links to design nodes, component previews, source directories, or other context.",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "kind": {
+                "$ref": "#/$defs/text"
+              },
+              "label": {
+                "$ref": "#/$defs/text"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "path": {
+                "$ref": "#/$defs/text"
+              }
+            },
+            "anyOf": [
+              {
+                "required": [
+                  "url"
+                ]
+              },
+              {
+                "required": [
+                  "path"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "platform"
+      ]
     },
     "notes": {
       "type": "array",
@@ -62,9 +117,143 @@
               ]
             },
             "description": "Links, citations, or project-defined reference objects; no prescribed standard or region."
+          },
+          "status": {
+            "$ref": "#/$defs/text",
+            "description": "Optional: open, decided, or not-applicable. Custom statuses are allowed. Decided requires statement; not-applicable requires reason."
+          },
+          "appliesTo": {
+            "$ref": "#/$defs/appliesTo"
           }
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "const": "decided"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "statement"
+              ]
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "const": "not-applicable"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "reason"
+              ]
+            }
+          }
+        ]
       }
+    },
+    "configurations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/text"
+          },
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "context": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "description": "Explicit named variants/states; not exhaustive coverage. Context is informational only."
+    },
+    "benchmarks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "name": {
+            "$ref": "#/$defs/text"
+          },
+          "version": {
+            "$ref": "#/$defs/text"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "url"
+        ]
+      },
+      "description": "Sources informing the record; no coverage or conformance claim."
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/text"
+          },
+          "notes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/$defs/text"
+            }
+          },
+          "method": {
+            "$ref": "#/$defs/text",
+            "description": "Typically manual, automated, or assisted; custom methods are welcome."
+          },
+          "procedure": {
+            "$ref": "#/$defs/text"
+          },
+          "test": {
+            "$ref": "#/$defs/text"
+          },
+          "appliesTo": {
+            "$ref": "#/$defs/appliesTo"
+          }
+        },
+        "required": [
+          "id",
+          "notes",
+          "method",
+          "procedure"
+        ]
+      },
+      "description": "Procedures linked to note IDs, not recorded outcomes."
     }
   },
   "$defs": {
@@ -72,6 +261,15 @@
       "type": "string",
       "minLength": 1,
       "pattern": "\\S"
+    },
+    "appliesTo": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/text"
+      },
+      "description": "Declared configuration IDs. Omit to apply to all documented configurations. Additive; no overrides."
     }
   }
 }
