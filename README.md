@@ -26,6 +26,16 @@ notes:
 
 The focus choice is contextual, not a universal dialog instruction. No installation is required.
 
+## VS Code hints and error checking
+
+Install [YAML by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml), then add this comment at the top of your `.fieldnote.yaml` file:
+
+```yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/marktoadvine/accessibility-fieldnote-schema/main/schema/fieldnote.schema.json
+```
+
+VS Code provides field suggestions and flags schema errors, such as missing required fields or incorrect types. For JSON files, use the same URL in a top-level `$schema` property; no extension is needed. Use the CLI for duplicate IDs and note/configuration reference checks. Custom fields remain allowed.
+
 ## The structure
 
 | Field | Use |
