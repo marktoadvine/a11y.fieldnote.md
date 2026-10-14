@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 — draft refinement
+
+- Restore component id/platform, optional name/version, and references for design nodes, previews, and source paths.
+- Require schemaVersion in every record; retain 0.3.0 for this early draft refinement.
+- Restore optional configurations and additive appliesTo on notes/checks from the 0.2.0-configurations model.
+- Restore versioned benchmarks, optional note status, and check definitions linked to notes.
+- Preserve open custom fields and vocabularies; decided requires statement and not-applicable requires reason.
+- Restore selected rendering and JSON resolution, including reference/scope validation.
+- Remove the migration guide and its links. Verification-result records remain outside scope.
+
 ## 0.3.0 — 2026-10-14
 
 Breaking simplification to portable, customizable accessibility notes.
@@ -9,7 +19,7 @@ Breaking simplification to portable, customizable accessibility notes.
 - Make schema URL and format version optional.
 - Replace configuration selection, verification results, and versioned guidance packs with contextual notes and optional question prompts.
 - Simplify the CLI to validate/render; preserve references and custom context in Markdown.
-- Rewrite examples and document manual migration from 0.2.0.
+- Rewrite examples around the notes model.
 
 ## 0.2.0 — working branch
 
@@ -48,4 +58,3 @@ This is a draft change to the record format, not an updated accessibility standa
 - Added a barebones starter record and a documented dialog example.
 - Added optional Python validation and documentation rendering tools.
 - Named the initial CI check AFS-01: schema, examples, and export integrity.
-

@@ -1,36 +1,41 @@
 # Optional validation
 
-Authoring requires no tools. To use the reference validator, get this repository and run:
+Authoring needs no tools. The reference CLI requires Node.js 22+:
 
 ```sh
 npm ci --ignore-scripts
 node tools/fieldnote.mjs validate /path/to/project/button.fieldnote.yaml
 node tools/fieldnote.mjs render /path/to/project/button.fieldnote.yaml
+node tools/fieldnote.mjs resolve /path/to/project/button.fieldnote.yaml --configuration secondary
 ```
 
-Node.js 22+ is required for this CLI. It accepts YAML and JSON, supports multiple files, and returns a nonzero exit status for invalid records. Supported commands are `validate` and `render`.
+The required fields are `schemaVersion: "0.3.0"`, `component.id`, `component.platform`, and `notes`. Each note needs an `id`. An empty notes list or ID-only note is a placeholder.
 
-Only `component`, `notes`, and each note's `id` are required. Known prose fields must contain non-whitespace text. References are arrays of citation strings or nonempty custom objects. Other file-level and note-level fields are accepted without AFS-specific constraints. Custom topics and identifiers may use any language.
+Optional structured fields:
 
-IDs are case-sensitive and must be unique within a file. The CLI checks uniqueness; JSON Schema alone cannot compare IDs across note objects. An ID-only note or empty notes list is a placeholder, not evidence of completed accessibility work.
+- Component name/version and references: references have a URL or local path, optionally kind/label.
+- Note status: open, decided (requires statement), or not-applicable (requires reason). Custom nonempty statuses are accepted without additional workflow rules.
+- Configurations: unique IDs and names, plus optional context.
+- Benchmarks: name, version, and URL.
+- Checks: ID, referenced note IDs, method, and procedure; optional test reference.
+- AppliesTo on notes/checks: nonempty unique configuration IDs.
 
-## Editor schemas and versions
+The CLI checks duplicate IDs, dangling note/configuration references, and check/note scope compatibility. JSON Schema alone cannot check these relationships. [Selection rules](configurations.md) define configuration behavior.
 
-An editor supporting JSON Schema Draft 2020-12 may associate `*.fieldnote.yaml` or `*.fieldnote.json` with `schema/fieldnote.schema.json`. YAML editors may need their own schema-association setting. You may optionally add:
+Known prose fields must contain non-whitespace text. Custom fields are allowed at record, component, note, configuration, benchmark, reference, and check levels. Topic, platform, status, and method vocabularies remain extensible. Validation cannot detect every typo or assess correctness, completeness, or conformance.
+
+## Editors and versions
+
+Associate `*.fieldnote.yaml` or `*.fieldnote.json` with `schema/fieldnote.schema.json` in an editor supporting JSON Schema Draft 2020-12. YAML editors may need a schema association setting. Optionally add:
 
 ```yaml
 $schema: https://raw.githubusercontent.com/marktoadvine/accessibility-fieldnote-schema/main/schema/fieldnote.schema.json
-schemaVersion: "0.3.0"
 ```
 
-The URL above tracks main and can change. For reproducibility, replace `main` with a known commit SHA, or keep a local schema copy. The optional schemaVersion records the format version; it does not pin a remote schema URL.
+That URL tracks main. To fix a schema snapshot, use a known commit SHA instead of main, or keep a local schema copy. The required schemaVersion identifies the format; it does not pin the URL. The CLI always uses its bundled schema and rejects missing or unsupported schemaVersion values. It never fetches schema or reference URLs.
 
-The CLI always uses its bundled schema and never fetches the record's schema URL. An explicit unsupported schemaVersion is rejected; an omitted version is interpreted using the bundled schema. See [migration](migration.md) for older records.
+## Output
 
-Validation does not assess conformance, correctness, or completeness. Permitting custom fields means a typo can look like an extension, so review both source and generated documentation.
+Render preserves component references, benchmarks, status, scope, checks/test references, and custom context. Structured reference/custom data appears in YAML code blocks. Note/check anchors use `note-` or `check-` plus a URI-encoded ID.
 
-## Rendering
-
-Markdown includes shared prose fields, references, custom note fields, and custom file metadata. Custom data appears in YAML code blocks; consumers can build a richer view. It does not interpret custom data or produce verification results.
-
-Note anchors use `note-` followed by the URI-encoded ID. Keep IDs stable when editing prose.
+Use `--configuration ID` with render or resolve. Resolve takes exactly one file. Validate/render accept multiple files and report a nonzero exit status for invalid input. Verification-result handling is not included.

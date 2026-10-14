@@ -1,66 +1,74 @@
 # Accessibility Fieldnote Schema
 
-Portable accessibility notes for designers and developers. Copy one file into a project, record choices and questions, and keep it beside the component through handoff and reuse. Readable by people and software, independent of frameworks and documentation tools.
+Portable accessibility notes for designers and developers. Keep choices, open questions, and check procedures beside a component through handoff and reuse. Readable by people and software, independent of frameworks and documentation tools.
 
 **Draft 0.3.0 · experimental.** Fieldnotes document context and intent; they do not certify accessibility or conformance.
 
 ## Start here
 
-Copy [the starter](examples/base/component.fieldnote.yaml) as `your-component.fieldnote.yaml`:
+Copy [the starter](examples/base/component.fieldnote.yaml):
 
 ```yaml
-component: dialog
+schemaVersion: "0.3.0"
+component:
+  id: dialog
+  platform: web
 notes:
   - id: initial-focus
     topic: focus
+    status: decided
     statement: Focus the heading when this dialog opens.
     reason: Users need context before choosing an action.
-
   - id: accessible-name
-    topic: semantics
+    status: open
     question: What will name this dialog?
 ```
 
-This focus choice is an example for a particular dialog, not a universal instruction. Write what fits your component and the people using it. No installation is required.
+The focus choice is contextual, not a universal dialog instruction. No installation is required.
 
-## A small shared structure
-
-Require only `component`, `notes`, and an `id` on each note. Keep IDs stable and unique within the file; use your own language and naming conventions. Empty notes and ID-only placeholders are allowed but contain no completed guidance.
+## The structure
 
 | Field | Use |
 | --- | --- |
-| `topic` | Any useful grouping, such as focus, content, or localisation |
-| `statement` | A choice, expectation, responsibility, or known limitation |
-| `question` | Something still to work out |
-| `reason` | Why this matters in this context |
-| `references` | A list of links, citations, or custom reference objects |
+| `schemaVersion` | Required format version: `"0.3.0"` |
+| `component` | Required `id` and `platform`; optional name, version, and references |
+| `notes` | Notes with stable IDs, unique within this file |
+| `configurations` | Optional named variants or states |
+| `benchmarks` | Optional source names, versions, and URLs |
+| `checks` | Optional procedures linked to note IDs |
 
-All five fields are optional. Add your own fields at the file or note level: `owner`, `language`, `framework`, or whatever helps. Preserve the meaning of the shared fields so tools can read them consistently. JSON represents the same model.
+Platform is your own term, such as `web`, `ios`, `android`, or `desktop`. Component `references` accepts objects with a `url` or a `path`, and optional `kind` and `label`. Link Figma nodes, Storybook previews, source directories, or any other context. Paths are relative to the fieldnote file; tools do not fetch or verify the destinations.
 
-See [dialog](examples/dialogue.fieldnote.yaml), [button](examples/button.fieldnote.yaml), and [custom context](examples/custom.fieldnote.yaml) examples. [Suggested questions](docs/questions.md) can help you start; they are not a required checklist.
+Notes may include `topic`, `statement`, `question`, `reason`, `references`, `status`, and `appliesTo`. Keep IDs stable; any language or naming convention is welcome.
+
+- `open`: an unresolved choice or question.
+- `decided`: requires a `statement`.
+- `not-applicable`: requires a `reason`.
+
+Status is optional; omission means unspecified. Custom statuses, topics, and fields are welcome. Add owner, language, framework, local guidance, or other context without changing shared field meanings. Empty notes and ID-only entries are placeholders, not completed guidance.
+
+## Variants and checks
+
+Declare `configurations` with IDs and names. Use `appliesTo: [secondary]` on a note or check to restrict it. Without `appliesTo`, it covers every documented configuration. Items are additive, with no overrides or implied combinations. See [configuration rules](docs/configurations.md).
+
+Each check has an `id`, `notes` (note IDs), `method`, and `procedure`; `test` can point to a test file or URL. A check can only cover configurations supported by every note it references. Checks define how to verify behavior; they do not record a passed result.
+
+Benchmarks preserve the source and version informing a record, such as WCAG 2.2. They make no claim of coverage or conformance. See the [button](examples/button.fieldnote.yaml), [dialog](examples/dialogue.fieldnote.yaml), and [custom context](examples/custom.fieldnote.yaml) examples.
 
 ## Use it in a project
 
-Link the fieldnote from component documentation. Review it when the component changes. Write relevant language, regional, platform, or framework context directly into notes or custom fields. Teams decide their own workflow; AFS has no configuration selection or verification-result model.
+Link the fieldnote from component documentation and review it when behavior changes. Generate a readable view from the file to maintain one source. [Suggested questions](docs/questions.md) can help you start.
 
-Documentation tools and agents can read the file directly. Generate a human-facing view from it when helpful, so you maintain one source.
-
-## Optional tools
-
-The reference CLI needs Node.js 22+:
+Optional CLI, using Node.js 22+:
 
 ```sh
 npm ci --ignore-scripts
-node tools/fieldnote.mjs validate examples/dialogue.fieldnote.yaml
-node tools/fieldnote.mjs render examples/dialogue.fieldnote.yaml > dialogue.accessibility.md
+node tools/fieldnote.mjs validate examples/button.fieldnote.yaml
+node tools/fieldnote.mjs render examples/button.fieldnote.yaml
+node tools/fieldnote.mjs render examples/button.fieldnote.yaml --configuration secondary
+node tools/fieldnote.mjs resolve examples/button.fieldnote.yaml --configuration secondary
 ```
 
-Validation checks structure and duplicate note IDs, not the quality or completeness of accessibility guidance. The renderer includes custom fields as YAML context.
-
-For editor setup and version pinning, see [validation](docs/validation.md). Both `$schema` and `schemaVersion: "0.3.0"` are optional. The CLI uses its bundled schema when they are omitted; it does not fetch a schema from the record. Unknown fields are accepted, so validation cannot catch every misspelled field.
-
-## Moving from 0.2.0
-
-This is a breaking simplification: one notes list replaces decisions, responsibilities, limitations, and checks. Configuration machinery, result records, and versioned guidance packs have been removed. See [migration](docs/migration.md) before converting an existing record.
+JSON and YAML represent the same model. The optional `$schema` field supports editor setup; `schemaVersion` is required. See [validation](docs/validation.md). Schema validity does not establish accessibility, and accepting custom fields means it cannot catch every typo.
 
 [Direction](DIRECTION.md) · [Contributing](CONTRIBUTING.md) · [MIT license](LICENSE)

@@ -12,6 +12,6 @@ Pick what helps; add your own questions and IDs. These prompts are not a coverag
 - Which language, regional, platform, or framework assumptions matter?
 - What remains uncertain or limited?
 
-Write a question while it is unresolved. Add a statement and reason when you have a contextual answer. Both may remain together; no status field or prescribed process is required.
+Write a question while it is unresolved. Add a statement and reason when you have a contextual answer. Both may remain together; use status when it helps distinguish open, decided, or not-applicable notes.
 
 For web modal dialogs, the [W3C APG pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/) is one useful reference. Its guidance is specific to that interaction and does not replace contextual decisions or testing with users and assistive technology.
