@@ -4,6 +4,8 @@ Living accessibility decisions for components. A small, versioned sidecar that s
 
 **Draft 0.2.0 · web components · experimental.** This records expectations and responsibilities; it does not certify accessibility or WCAG conformance.
 
+**Next direction:** [Lightweight, customizable fieldnotes](DIRECTION.md): a component identifier and notes with stable IDs, optional guidance fields, and room for project-specific context. Configuration machinery and verification results are outside that intended scope. The documentation below describes the existing 0.2.0 implementation.
+
 ## Start with one file — no installation
 
 Copy [the smallest valid fieldnote](examples/base/component.fieldnote.yaml), rename it to `your-component.fieldnote.yaml`, and place it beside your component documentation. Change the component ID and name, then add decisions as you work. No installation is required to write or share the file.
