@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0 — 2026-10-14
+
+Breaking simplification to portable, customizable accessibility notes.
+
+- Require only a component identifier, notes list, and stable ID per note.
+- Offer optional topic, statement, question, reason, and references; accept custom fields and multilingual identifiers.
+- Make schema URL and format version optional.
+- Replace configuration selection, verification results, and versioned guidance packs with contextual notes and optional question prompts.
+- Simplify the CLI to validate/render; preserve references and custom context in Markdown.
+- Rewrite examples and document manual migration from 0.2.0.
+
 ## 0.2.0 — working branch
 
 - Added optional named configurations and additive `appliesTo` scopes for decisions, responsibilities, limitations, and checks.
@@ -37,3 +48,4 @@ This is a draft change to the record format, not an updated accessibility standa
 - Added a barebones starter record and a documented dialog example.
 - Added optional Python validation and documentation rendering tools.
 - Named the initial CI check AFS-01: schema, examples, and export integrity.
+

@@ -14,9 +14,5 @@ jobs:
           cache: npm
       - name: Install validator dependencies
         run: npm ci --ignore-scripts
-      - name: Verify schema constraints and documentation rendering
-        run: npm test
-      - name: Validate full and barebones example records
-        run: npm run check:examples
-      - name: Validate result fixtures and linked configuration scope
-        run: npm run check:results
+      - name: Verify schema, examples, and rendering
+        run: npm run check

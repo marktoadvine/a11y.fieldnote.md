@@ -1,57 +1,17 @@
-$schema: https://raw.githubusercontent.com/marktoadvine/accessibility-fieldnote-schema/main/schema/fieldnote.schema.json
-schemaVersion: "0.2.0"
-component:
-  id: dialogue
-  name: Confirmation dialogue
-  platform: web
-  version: 0.1.0
-guidance:
-  profile: dialog-modal
-  version: 0.1.1
-decisions:
-  - id: name
+component: confirmation-dialog
+notes:
+  - id: accessible-name
     topic: semantics
-    question: What names the dialog?
-    status: open
+    question: What visible title will name this dialog?
   - id: initial-focus
     topic: focus
-    question: Where does focus go when it opens?
-    status: decided
-    answer: For this destructive confirmation, focus the Cancel button when opened.
+    statement: For this destructive confirmation, focus Cancel when the dialog opens.
     reason: Avoid positioning focus on the destructive action.
-  - id: keyboard-boundary
-    topic: keyboard
-    question: How does keyboard navigation behave while it is open?
-    status: open
-  - id: dismiss
-    topic: keyboard
-    question: How can someone dismiss it?
-    status: open
+    references:
+      - https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
   - id: return-focus
     topic: focus
-    question: Where does focus return when it closes?
-    status: open
-  - id: long-content
-    topic: visual
-    question: What happens with long content, zoom, or a small viewport?
-    status: open
-  - id: reduced-motion
-    topic: motion
-    question: What changes when reduced motion is requested?
-    status: open
-responsibilities:
+    question: Where should focus return if the trigger no longer exists?
   - id: provide-title
-    owner: consumer
-    requirement: Provide a visible title that describes the action.
-limitations: []
-checks:
-  - id: initial-focus-check
-    decisions:
-      - initial-focus
-    method: manual
-    procedure: Open the dialog from its trigger and confirm that keyboard focus
-      lands on Cancel.
-benchmarks:
-  - name: WCAG
-    version: "2.2"
-    url: https://www.w3.org/TR/WCAG22/
+    statement: Supply a visible title describing the action.
+    owner: consuming team

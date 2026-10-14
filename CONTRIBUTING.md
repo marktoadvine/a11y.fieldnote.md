@@ -1,12 +1,11 @@
 # Contributing
 
-Open an issue with a real component example or propose a focused pull request.
-Keep the core record small and independent of authoring tools. Guidance packs
-are optional; include their scope, source references, version, and review date.
+Start with a real component example. Keep the format small, portable, and easy for designers and developers to author.
 
-Update the current schemas in `schema/`. When the format changes, update
-`schemaVersion` and include an example, migration notes, and a changelog entry.
-Older versions remain in Git history rather than separate folders.
+The core is a component identifier and notes with stable IDs. Custom topics and fields are welcome. Preserve shared field meanings; avoid adding mandatory workflow, configuration selection, or verification-result machinery.
 
-For changes to schemas or tooling, run [AFS-01](docs/checks.md).
-Contributions are provided under the [MIT license](LICENSE).
+For a format change, update the schema and optional schemaVersion, package version, examples, migration guide, and changelog. Older versions remain in Git history.
+
+Run `npm ci --ignore-scripts` and `npm run check` for schema, tooling, or example changes. [AFS-01](docs/checks.md) describes the checks.
+
+Contributions use the [MIT license](LICENSE).

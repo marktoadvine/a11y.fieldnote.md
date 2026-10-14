@@ -1,10 +1,4 @@
-$schema: https://raw.githubusercontent.com/marktoadvine/accessibility-fieldnote-schema/main/schema/fieldnote.schema.json
-schemaVersion: "0.2.0"
-component:
-  id: my-component
-  name: My component
-  platform: web
-decisions: []
-responsibilities: []
-limitations: []
-checks: []
+component: my-component
+notes:
+  - id: accessible-name
+    question: What gives this component its accessible name?

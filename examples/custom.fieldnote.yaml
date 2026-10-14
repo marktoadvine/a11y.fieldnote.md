@@ -1,19 +1,19 @@
-$schema: https://raw.githubusercontent.com/marktoadvine/accessibility-fieldnote-schema/main/schema/fieldnote.schema.json
-schemaVersion: "0.2.0"
-component:
-  id: filter-builder
-  name: Custom filter builder
-  platform: web
-decisions:
-  - id: remove-filter
-    topic: focus
-    status: decided
-    answer: When a filter is removed, focus moves to the next filter’s Remove
-      control, then the previous one if no next filter exists. If none remain,
-      focus moves to Add filter.
-  - id: removal-feedback
-    topic: state
-    status: open
-responsibilities: []
-limitations: []
-checks: []
+component: address-entry
+language: fr-CA
+framework: project-specific
+notes:
+  - id: adresse-format
+    topic: localisation
+    statement: Accept the address formats used by the people this service supports.
+    reason: Address structure and terminology differ between regions.
+    owner: content and engineering
+    context:
+      region: Canada
+      review-with: local users and accessibility specialists
+    references:
+      - title: Project content guidance
+        path: ./content/address-guidance.md
+        status: draft
+  - id: error-recovery
+    question: How will someone understand and correct an address the service cannot recognize?
+    follow-up: Review with the service team before implementation.

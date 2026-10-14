@@ -1,38 +1,47 @@
-# Migrate to 0.2.0
+# Migrating to 0.3.0
 
-## Fieldnotes
+0.3.0 is a breaking simplification. Keep the original fieldnote and any historical results in version control before converting them. Older schemas and tools remain available at their Git revisions.
 
-For an existing flat 0.1.2 record, change `schemaVersion` to `0.2.0` and use the
-current schema URL. No configuration or scope fields are required. Component
-versions, benchmark versions, and guidance-pack versions are independent; keep
-them as recorded.
+1. Replace the component object with its identifier: `component: dialog`. Preserve useful name, source, design, platform, and version information as custom file-level fields.
+2. Create one `notes` list. Keep existing decision IDs; rename IDs that collide across the old collections and update external links.
+3. Move decision `answer` to `statement`. Keep `question`, `topic`, `reason`, and `references`. Status is no longer required; preserve it as a custom field if useful. For a not-applicable decision, explain what does not apply and why in a statement/reason.
+4. Turn responsibilities and limitations into notes with statements. Owner and workaround can remain custom fields. Keep useful check procedures as prose notes or links to project tests; AFS no longer interprets check references or outcomes.
+5. Rewrite configuration scopes into explicit prose or custom context before removing `configurations` and `appliesTo`. Preserve exactly which situations a statement covers. There is no automatic selection, inheritance, or scope validation.
+6. Keep verification results in your project's testing or audit records. The result schema and `--results` command are removed; do not present old outcomes as newly verified notes.
+7. Update `schemaVersion` to `"0.3.0"` or omit it. Update any pinned `$schema` URL to the new schema or omit it. Run the current validator and review the content.
 
-To combine variant records:
+Versioned guidance packs are replaced by [optional questions](questions.md). Existing source references can remain on notes; custom metadata can preserve authoring provenance.
 
-1. Choose the component identity and declare the configurations being documented.
-2. Keep genuinely shared decisions once, with no `appliesTo`.
-3. Give different decisions unique IDs and explicit `appliesTo` lists. Split
-   mixed behavior/token choices into separate decisions where appropriate.
-4. Scope responsibilities, limitations, and checks as needed. Update decision
-   references; a check cannot cover configurations its decisions do not cover.
-5. Validate the whole record, then review the rendered view of each configuration.
+## Before
 
-New configurations receive shared decisions; review those decisions before
-adding them. Configuration membership never implies verified accessibility.
-See [configuration semantics](configurations.md).
+```yaml
+schemaVersion: "0.2.0"
+component:
+  id: dialog
+  name: Confirmation
+  platform: web
+decisions:
+  - id: initial-focus
+    topic: focus
+    status: decided
+    answer: Focus Cancel for this destructive confirmation.
+responsibilities: []
+limitations: []
+checks: []
+```
 
-## Results
+## After
 
-Update result `schemaVersion` to `0.2.0`. The CLI now validates the linked
-fieldnote, which must use the current format. Its `fieldnote` path is resolved
-relative to the result file; the CLI accepts local file paths and does not
-fetch network resources.
+```yaml
+component: dialog
+name: Confirmation
+platform: web
+notes:
+  - id: initial-focus
+    topic: focus
+    statement: Focus Cancel for this destructive confirmation.
+```
 
-If the linked record declares configurations, each observation needs the ID of
-the configuration actually assessed. Do not guess that ID or copy a passing
-observation to other variants. If the original evidence cannot establish the
-configuration, keep the historical result with its historical AFS checkout and
-perform a new assessment. Flat records still require no configuration field.
+Use `validate` or `render`; `resolve` and `--configuration` are removed. Generated note anchors are now `note-<URI-encoded-id>`, replacing `decision-<id>`; update incoming links.
 
-Renamed check IDs require explicit review of their historical evidence. The
-validator detects broken references; it does not migrate or refresh evidence.
+The validator deliberately permits custom fields. A leftover legacy field can therefore pass as custom data without retaining its old meaning. Migration requires human review; validation is not an automatic conversion.

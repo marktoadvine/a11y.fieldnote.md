@@ -1,87 +1,36 @@
-# Validate your fieldnote
+# Optional validation
 
-AFS does not need a package registry or hosted service. Use a local copy of
-its schema, an editor with JSON Schema support, or the optional reference CLI.
-
-## Files in another repository
-
-Clone AFS somewhere separate from your design system. Use the current version on `main`:
+Authoring requires no tools. To use the reference validator, get this repository and run:
 
 ```sh
-git clone https://github.com/marktoadvine/accessibility-fieldnote-schema.git
-cd accessibility-fieldnote-schema
-npm ci
-node tools/fieldnote.mjs validate /absolute/path/to/dialogue.fieldnote.yaml
+npm ci --ignore-scripts
+node tools/fieldnote.mjs validate /path/to/project/button.fieldnote.yaml
+node tools/fieldnote.mjs render /path/to/project/button.fieldnote.yaml
 ```
 
-Replace the final path with your own file. YAML and JSON are both accepted.
-The CLI checks `schemaVersion` against the current local schema; it does not fetch the
-record's `$schema` URL. It exits with status 0 on success, 1 for invalid records or unreadable files, and 2 for invalid command usage,
-so the same command can run in your documentation build or CI.
+Node.js 22+ is required for this CLI. It accepts YAML and JSON, supports multiple files, and returns a nonzero exit status for invalid records. Supported commands are `validate` and `render`.
 
-For example, a `decided` entry without an `answer` fails validation:
+Only `component`, `notes`, and each note's `id` are required. Known prose fields must contain non-whitespace text. References are arrays of citation strings or nonempty custom objects. Other file-level and note-level fields are accepted without AFS-specific constraints. Custom topics and identifiers may use any language.
+
+IDs are case-sensitive and must be unique within a file. The CLI checks uniqueness; JSON Schema alone cannot compare IDs across note objects. An ID-only note or empty notes list is a placeholder, not evidence of completed accessibility work.
+
+## Editor schemas and versions
+
+An editor supporting JSON Schema Draft 2020-12 may associate `*.fieldnote.yaml` or `*.fieldnote.json` with `schema/fieldnote.schema.json`. YAML editors may need their own schema-association setting. You may optionally add:
 
 ```yaml
-decisions:
-  - id: removal-feedback
-    topic: state
-    status: decided
+$schema: https://raw.githubusercontent.com/marktoadvine/accessibility-fieldnote-schema/main/schema/fieldnote.schema.json
+schemaVersion: "0.3.0"
 ```
 
-Add an `answer`, or leave the status `open` while the decision is unresolved.
-Questions and guidance packs are optional in 0.2.0. Custom component behavior
-uses the same fields; unknown fields are rejected.
+The URL above tracks main and can change. For reproducibility, replace `main` with a known commit SHA, or keep a local schema copy. The optional schemaVersion records the format version; it does not pin a remote schema URL.
 
-## Editor validation
+The CLI always uses its bundled schema and never fetches the record's schema URL. An explicit unsupported schemaVersion is rejected; an omitted version is interpreted using the bundled schema. See [migration](migration.md) for older records.
 
-In VS Code with the YAML extension by Red Hat, map fieldnotes to your local
-schema in workspace settings. Replace the schema path with your checkout:
+Validation does not assess conformance, correctness, or completeness. Permitting custom fields means a typo can look like an extension, so review both source and generated documentation.
 
-```json
-{
-  "yaml.schemas": {
-    "/absolute/path/to/accessibility-fieldnote-schema/schema/fieldnote.schema.json": "**/*.fieldnote.yaml"
-  }
-}
-```
+## Rendering
 
-For JSON, supported editors can read `$schema`; use a reachable URL or a
-local schema path. A `$schema` entry identifies the schema but does not run
-validation on its own. A remote URL in a private repo may fail even when your
-Git client is authenticated; use the local mapping in that case.
+Markdown includes shared prose fields, references, custom note fields, and custom file metadata. Custom data appears in YAML code blocks; consumers can build a richer view. It does not interpret custom data or produce verification results.
 
-Generic schema validators check fields, types, and required answers or
-reasons. The reference CLI also detects duplicate IDs and checks that decision
-references point to existing entries and stay within configuration scope. Neither verifies accessibility behavior,
-source accuracy, or WCAG conformance.
-
-## Configurations and results
-
-Validate the complete record before rendering a selected view:
-
-```sh
-node tools/fieldnote.mjs validate examples/button.fieldnote.yaml
-node tools/fieldnote.mjs render examples/button.fieldnote.yaml --configuration secondary
-node tools/fieldnote.mjs resolve examples/button.fieldnote.yaml --configuration secondary
-node tools/fieldnote.mjs validate --results examples/button.results.json
-```
-
-Results validation reads the linked local fieldnote and verifies check IDs and
-configuration scope. It accepts no URL fetches. See [configuration rules](configurations.md)
-and [migration](migration.md). A valid result is not proof that a check ran.
-
-## Public distribution
-
-A public repository with reachable schema URLs is sufficient; npm or PyPI
-publication is optional. For a release, merge reviewed changes, create a
-version tag, and publish a GitHub release with migration notes. Use a release
-tag or commit-pinned schema URL for reproducible validation. Branch URLs are
-mutable drafts.
-
-The MIT license covers AFS's schemas, documentation, examples, and tooling.
-Authoring a fieldnote with AFS does not require licensing your own component
-or record under MIT. Referenced standards retain their own licenses.
-
-Only current schemas are stored in `schema/`. To validate an older format, use
-a matching Git tag or commit checkout, or migrate the record to the current
-`schemaVersion`. There are no per-version schema folders.
+Note anchors use `note-` followed by the URI-encoded ID. Keep IDs stable when editing prose.

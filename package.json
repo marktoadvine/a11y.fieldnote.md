@@ -1,6 +1,6 @@
 {
   "name": "accessibility-fieldnote-schema",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -11,8 +11,7 @@
     "test": "node tests/fieldnote.test.mjs",
     "validate": "node tools/fieldnote.mjs validate",
     "check:examples": "node tools/fieldnote.mjs validate examples/*.fieldnote.yaml examples/*.fieldnote.json examples/base/*.fieldnote.yaml",
-    "check": "npm test && npm run check:examples && npm run check:results",
-    "check:results": "node tools/fieldnote.mjs validate --results examples/*.results.json"
+    "check": "npm test && npm run check:examples"
   },
   "dependencies": {
     "ajv": "^8.17.1",

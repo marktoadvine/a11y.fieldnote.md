@@ -1,46 +1,9 @@
-# Start your own fieldnote
+# Start with one note
 
-Copy [component.fieldnote.yaml](component.fieldnote.yaml) into your design system documentation. Rename it, for example, `button.fieldnote.yaml`. Set `component.id` and `component.name`. Keep the schema URL and version.
+Copy [component.fieldnote.yaml](component.fieldnote.yaml) into your project and change the component identifier. Write one question you need to answer.
 
-This is the smallest valid record. Empty lists mean nothing is recorded yet. No tooling is required to author it.
+Keep its ID stable. When you have an answer, add `statement` and optionally `reason`. Add more notes when useful.
 
-Replace `decisions: []` with a question relevant to your component:
+Topic and all other fields are optional. Use custom fields for context that matters to your team. No installation, predefined checklist, or status workflow is needed.
 
-```yaml
-decisions:
-  - id: accessible-name
-    topic: semantics
-    question: What gives this component its accessible name?
-    status: open
-```
-
-Once you have made the decision:
-
-```yaml
-decisions:
-  - id: accessible-name
-    topic: semantics
-    question: What gives this component its accessible name?
-    status: decided
-    answer: The button's visible text provides its accessible name.
-```
-
-That documents intent; it does not claim the implementation was tested. Use `not-applicable` with a `reason` when a question does not apply.
-
-Add `responsibilities`, `limitations`, and `checks` when needed. Keep their empty lists until then. The [dialog example](../dialogue.fieldnote.yaml) shows a fuller record.
-
-Link the file from your component page, or render it with your existing documentation tooling. Continue editing this same record after implementation. Keep decision IDs stable and record known limitations rather than removing unresolved questions at release.
-
-Questions and guidance packs are optional. You can instead record behavior directly:
-
-```yaml
-decisions:
-  - id: activation
-    topic: keyboard
-    status: decided
-    answer: The native button activates through its standard keyboard interaction.
-```
-
-See [the custom-component example](../custom.fieldnote.yaml) for a record without questions or a pack.
-
-For variants and states, add optional [configurations](../../docs/configurations.md) when needed. Shared decisions can stay in this file; the base template requires no configuration fields.
+The minimum shape is `component: my-component` and `notes: []`; an empty list is only a placeholder.

@@ -1,136 +1,66 @@
 # Accessibility Fieldnote Schema
 
-Living accessibility decisions for components. A small, versioned sidecar that starts during design and ships with component documentation. Independent of documentation frameworks, component libraries, and agent platforms.
+Portable accessibility notes for designers and developers. Copy one file into a project, record choices and questions, and keep it beside the component through handoff and reuse. Readable by people and software, independent of frameworks and documentation tools.
 
-**Draft 0.2.0 · web components · experimental.** This records expectations and responsibilities; it does not certify accessibility or WCAG conformance.
+**Draft 0.3.0 · experimental.** Fieldnotes document context and intent; they do not certify accessibility or conformance.
 
-**Next direction:** [Lightweight, customizable fieldnotes](DIRECTION.md): a component identifier and notes with stable IDs, optional guidance fields, and room for project-specific context. Configuration machinery and verification results are outside that intended scope. The documentation below describes the existing 0.2.0 implementation.
+## Start here
 
-## Start with one file — no installation
-
-Copy [the smallest valid fieldnote](examples/base/component.fieldnote.yaml), rename it to `your-component.fieldnote.yaml`, and place it beside your component documentation. Change the component ID and name, then add decisions as you work. No installation is required to write or share the file.
+Copy [the starter](examples/base/component.fieldnote.yaml) as `your-component.fieldnote.yaml`:
 
 ```yaml
-$schema: https://raw.githubusercontent.com/marktoadvine/accessibility-fieldnote-schema/main/schema/fieldnote.schema.json
-schemaVersion: "0.2.0"
-component:
-  id: my-component
-  name: My component
-  platform: web
-decisions: []
-responsibilities: []
-limitations: []
-checks: []
-```
+component: dialog
+notes:
+  - id: initial-focus
+    topic: focus
+    statement: Focus the heading when this dialog opens.
+    reason: Users need context before choosing an action.
 
-Empty lists are valid placeholders, not completed accessibility work. Start with one question:
-
-```yaml
-decisions:
   - id: accessible-name
     topic: semantics
-    question: What gives this component its accessible name?
-    status: open
+    question: What will name this dialog?
 ```
 
-When decided, change `status` to `decided` and add an `answer`. Use `not-applicable` with a `reason` when the question does not apply. See [the base guide](examples/base/README.md) and [a fuller dialog example](examples/dialogue.fieldnote.yaml).
+This focus choice is an example for a particular dialog, not a universal instruction. Write what fits your component and the people using it. No installation is required.
 
-## Carry it into your design system docs
+## A small shared structure
 
-Keep the fieldnote as the source of truth. Link it from the component page for an immediate, portable handoff. To show its contents inline, your documentation system can parse the YAML (or equivalent JSON) and render decisions, responsibilities, limitations, and checks. Any language or documentation stack can implement this; AFS is the data format, not a JavaScript dependency.
+Require only `component`, `notes`, and an `id` on each note. Keep IDs stable and unique within the file; use your own language and naming conventions. Empty notes and ID-only placeholders are allowed but contain no completed guidance.
 
-Retain stable decision IDs as the component changes. Add the implementation version when available; keep unresolved questions and limitations visible after release. Check definitions describe how to verify behavior, not whether it has passed.
+| Field | Use |
+| --- | --- |
+| `topic` | Any useful grouping, such as focus, content, or localisation |
+| `statement` | A choice, expectation, responsibility, or known limitation |
+| `question` | Something still to work out |
+| `reason` | Why this matters in this context |
+| `references` | A list of links, citations, or custom reference objects |
 
-The optional renderer below generates Markdown for documentation systems that accept it. Generate that page during your docs build rather than maintaining a second copy by hand.
+All five fields are optional. Add your own fields at the file or note level: `owner`, `language`, `framework`, or whatever helps. Preserve the meaning of the shared fields so tools can read them consistently. JSON represents the same model.
 
-## Share decisions across variants and states
+See [dialog](examples/dialogue.fieldnote.yaml), [button](examples/button.fieldnote.yaml), and [custom context](examples/custom.fieldnote.yaml) examples. [Suggested questions](docs/questions.md) can help you start; they are not a required checklist.
 
-Declare optional `configurations` in one component fieldnote. Decisions apply
-to all documented configurations unless scoped with `appliesTo: [secondary]`.
-The same scope field works on responsibilities, limitations, and checks.
+## Use it in a project
 
-See the [button example](examples/button.fieldnote.yaml) and
-[selection rules](docs/configurations.md). The base template stays minimal.
+Link the fieldnote from component documentation. Review it when the component changes. Write relevant language, regional, platform, or framework context directly into notes or custom fields. Teams decide their own workflow; AFS has no configuration selection or verification-result model.
 
-```sh
-node tools/fieldnote.mjs render examples/button.fieldnote.yaml --configuration secondary
-node tools/fieldnote.mjs resolve examples/button.fieldnote.yaml --configuration secondary
-```
-
-`resolve` outputs a valid JSON fieldnote with shared and selected items.
-[Migration to 0.2.0](docs/migration.md) covers existing records and results.
-
-## Validate your own entries
-
-See [validation instructions](docs/validation.md) for files in another repository and local editor validation. A hosted service or published package is not required. Use local schema files when a remote schema URL is unavailable.
+Documentation tools and agents can read the file directly. Generate a human-facing view from it when helpful, so you maintain one source.
 
 ## Optional tools
 
-### Validation and Markdown generation
-
-The included reference CLI uses Node.js 22+. Install its dependencies only if you want to run it:
+The reference CLI needs Node.js 22+:
 
 ```sh
-npm ci
-node tools/fieldnote.mjs validate examples/base/component.fieldnote.yaml
+npm ci --ignore-scripts
+node tools/fieldnote.mjs validate examples/dialogue.fieldnote.yaml
 node tools/fieldnote.mjs render examples/dialogue.fieldnote.yaml > dialogue.accessibility.md
 ```
 
-An editor or another validator supporting JSON Schema Draft 2020-12 can use the `$schema` URL for structural checks. The reference CLI additionally checks duplicate IDs, decision references, and configuration scopes.
+Validation checks structure and duplicate note IDs, not the quality or completeness of accessibility guidance. The renderer includes custom fields as YAML context.
 
-## The model
+For editor setup and version pinning, see [validation](docs/validation.md). Both `$schema` and `schemaVersion: "0.3.0"` are optional. The CLI uses its bundled schema when they are omitted; it does not fetch a schema from the record. Unknown fields are accepted, so validation cannot catch every misspelled field.
 
-| Field | Purpose |
-| --- | --- |
-| `component` | Identity, platform, optional implementation version and design/source links |
-| `configurations` | Optional named combinations of variant, state, theme, or other conditions |
-| `benchmarks` | Optional record-level source names, versions, and URLs; no conformance claim |
-| `guidance` | Optional profile ID and the version used to author the decisions |
-| `decisions` | Stable IDs, topics, optional questions, status, answers, rationale, and optional versioned source references |
-| `responsibilities` | What designers, implementers, or consumers must supply |
-| `limitations` | Known limitations and optional workarounds |
-| `checks` | Procedures and test references linked to decision IDs |
+## Moving from 0.2.0
 
-`open` is a valid state. `decided` requires an answer; `not-applicable` requires a reason. The CLI also rejects duplicate IDs and dangling decision references. Schema validity does not establish that the guidance, implementation, or answers are correct.
+This is a breaking simplification: one notes list replaces decisions, responsibilities, limitations, and checks. Configuration machinery, result records, and versioned guidance packs have been removed. See [migration](docs/migration.md) before converting an existing record.
 
-JSON and YAML represent the same model. UTF-8 files use the `.fieldnote.yaml` or `.fieldnote.json` suffix. Unknown fields are rejected in 0.2.0 to catch mistakes early.
-
-## Separate verification results
-
-[The results schema](schema/results.schema.json) records the fieldnote location, assessed implementation revision, check ID, outcome, observation date, environment, and evidence. Validate it using `node tools/fieldnote.mjs validate --results results.json`.
-
-The CLI resolves the local fieldnote path relative to the results file and checks that each check ID and configuration applies. For configured components, each observation names exactly one `configuration`; shared procedures do not share outcomes. The shipped result fixture is synthetic. Validation does not execute checks or refresh evidence.
-
-## Benchmarks
-
-Optionally identify the sources informing a record:
-
-```yaml
-benchmarks:
-  - name: WCAG
-    version: "2.2"
-    url: https://www.w3.org/TR/WCAG22/
-```
-
-This does not assert coverage or conformance. Benchmark versions are independent
-of `schemaVersion`. For a draft, identify its date in `version` and use the
-exact dated source URL. Individual criteria remain optional decision references.
-
-## Guidance and maintenance
-
-**AFS structures records; guidance packs help author them.** Neither questions nor packs are mandatory. Record custom behavior directly with a decision ID, topic, status, and answer; see [the custom component example](examples/custom.fieldnote.yaml) and [guidance/migration documentation](docs/guidance.md).
-
-
-The optional, experimental web modal-dialog guidance pack draws on the [W3C APG modal dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/). APG guidance and WCAG requirements are distinct. Questions need contextual answers; the pack does not prescribe one initial focus target for every dialog.
-
-Profiles are versioned separately from the schema. Updating guidance must prompt review rather than silently rewriting decisions. Automated profile comparison is a future feature.
-
-Only the current schemas live in `schema/`. The `schemaVersion` field identifies the record format; the CLI validates against the current version only. Older schemas remain in Git history. Use a release tag or commit-pinned URL when you need a fixed version. Current schema URLs use `main`; they change as the schema is updated.
-
-## Scope of this prototype
-
-Portable component records, versioned schemas, examples, and optional validation and Markdown rendering. Next: use the format in real component documentation and refine it from those trials.
-
-## License and contributions
-
-[MIT](LICENSE). See [contribution guidance](CONTRIBUTING.md).
+[Direction](DIRECTION.md) · [Contributing](CONTRIBUTING.md) · [MIT license](LICENSE)

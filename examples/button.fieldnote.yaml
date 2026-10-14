@@ -1,108 +1,17 @@
-$schema: https://raw.githubusercontent.com/marktoadvine/accessibility-fieldnote-schema/main/schema/fieldnote.schema.json
-schemaVersion: "0.2.0"
-component:
-  id: button
-  name: Example button
-  platform: web
-  version: example-only
-benchmarks:
-  - name: WCAG
-    version: "2.2"
-    url: https://www.w3.org/TR/WCAG22/
-configurations:
-  - id: primary
-    name: Primary, enabled
-    context: { variant: primary, state: enabled, colorMode: default }
-  - id: secondary
-    name: Secondary, enabled
-    context: { variant: secondary, state: enabled, colorMode: default }
-  - id: primary-disabled
-    name: Primary, disabled
-    context: { variant: primary, state: disabled, colorMode: default }
-  - id: secondary-disabled
-    name: Secondary, disabled
-    context: { variant: secondary, state: disabled, colorMode: default }
-  - id: primary-forced-colors
-    name: Primary with forced colors
-    context: { variant: primary, state: enabled, colorMode: forced }
-  - id: secondary-forced-colors
-    name: Secondary with forced colors
-    context: { variant: secondary, state: enabled, colorMode: forced }
-decisions:
-  - id: element
+component: action-button
+notes:
+  - id: native-control
     topic: semantics
-    status: decided
-    answer: Use a native button for actions. Navigation uses a separate link component.
-  - id: accessible-name
-    topic: semantics
-    status: decided
-    answer: The visible text supplies the accessible name.
+    statement: Use a native button for actions.
+  - id: visible-label
+    statement: Give the button visible text that describes the action.
+    owner: content designer
   - id: text-resize
     topic: visual
-    status: decided
-    answer: Let the label wrap and the control grow when text is resized.
-  - id: focus-indicator
+    statement: Let the label wrap and the button grow when text is enlarged.
+  - id: disabled-behavior
+    topic: interaction
+    question: Should an unavailable action remain discoverable, and how will its reason be explained?
+  - id: focus-contrast
     topic: focus
-    status: decided
-    answer: Show a 2px outline on focus-visible. The hover effect is not the focus indicator.
-    appliesTo: [primary, secondary, primary-forced-colors, secondary-forced-colors]
-  - id: primary-focus-color
-    topic: focus
-    status: decided
-    answer: Use the primary focus token for the outline; verify it against every supported adjacent surface.
-    appliesTo: [primary]
-  - id: secondary-focus-color
-    topic: focus
-    status: open
-    question: Which outline token is distinguishable on the secondary button's supported surfaces?
-    appliesTo: [secondary]
-  - id: primary-contrast
-    topic: visual
-    status: open
-    question: What are the primary text and background pairs and their measured contrast?
-    appliesTo: [primary]
-  - id: secondary-contrast
-    topic: visual
-    status: open
-    question: What are the secondary text and background pairs and their measured contrast?
-    appliesTo: [secondary]
-  - id: disabled
-    topic: state
-    status: decided
-    answer: Use the native disabled attribute; the button cannot activate and leaves the tab order.
-    appliesTo: [primary-disabled, secondary-disabled]
-  - id: forced-colors
-    topic: visual
-    status: decided
-    answer: Remove the decorative fill and use system colors for the text, boundary, and focus outline.
-    appliesTo: [primary-forced-colors, secondary-forced-colors]
-responsibilities:
-  - id: label
-    owner: consumer
-    requirement: Supply visible text describing the action.
-limitations:
-  - id: fixture-only
-    description: This is an illustrative documentation fixture, not an implemented or assessed button.
-  - id: secondary-palette
-    description: The secondary focus and text contrast choices are unresolved.
-    appliesTo: [secondary]
-checks:
-  - id: name-check
-    decisions: [accessible-name]
-    method: manual
-    procedure: Inspect the computed accessible name and compare it with the visible text for the selected configuration.
-  - id: focus-check
-    decisions: [focus-indicator]
-    method: manual
-    procedure: Tab to the button and inspect the outline without relying on hover.
-    appliesTo: [primary, secondary, primary-forced-colors, secondary-forced-colors]
-  - id: primary-contrast-check
-    decisions: [primary-contrast]
-    method: assisted
-    procedure: Record the computed text/background pairs and measure contrast on supported surfaces.
-    appliesTo: [primary]
-  - id: secondary-contrast-check
-    decisions: [secondary-contrast]
-    method: assisted
-    procedure: Record the computed text/background pairs and measure contrast on supported surfaces.
-    appliesTo: [secondary]
+    question: Is the focus indicator distinguishable on every surface where this button is used?
