@@ -2,6 +2,8 @@
 
 ## 0.4.0 — unreleased
 
+- Name the project Accessibility Fieldnotes (fieldnotes for short) and document how agents use intent, scopes, and checks.
+
 - Make authored Markdown with YAML frontmatter the recommended format.
 - Add a structural checker with Markdown-aware parsing, reference/scope checks, line diagnostics, and JSON reports.
 - Promote the button example and add a minimal Markdown starter.

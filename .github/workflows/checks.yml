@@ -1,8 +1,8 @@
-name: AFS checks
+name: Fieldnote checks
 on: [push, pull_request]
 jobs:
-  afs-01:
-    name: AFS-01 — Markdown structure and examples
+  fieldnotes:
+    name: Markdown structure and examples
     runs-on: ubuntu-latest
     steps:
       - name: Check out source

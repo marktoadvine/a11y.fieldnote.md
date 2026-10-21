@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/marktoadvine/accessibility-fieldnote-schema/main/schema/frontmatter.schema.json",
-  "title": "AFS Markdown frontmatter 0.4.0",
+  "title": "Accessibility Fieldnotes frontmatter 0.4.0",
   "description": "Metadata for Markdown fieldnotes. Custom fields are welcome.",
   "type": "object",
   "additionalProperties": true,

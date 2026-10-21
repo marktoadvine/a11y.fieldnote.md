@@ -13,5 +13,4 @@ Errors cover frontmatter/version/identity, malformed required metadata, duplicat
 
 ## Editor support
 
-Write in any Markdown editor. VS Code previews the prose; run the checker in its terminal to catch document errors. The [frontmatter JSON Schema](../schema/frontmatter.schema.json) is available to editors/extensions that support YAML frontmatter schemas; it covers the header only. Ordinary Markdown editing does not automatically enable AFS validation.
-
+Write in any Markdown editor. VS Code previews the prose; run the checker in its terminal to catch document errors. The [frontmatter JSON Schema](../schema/frontmatter.schema.json) is available to editors/extensions that support YAML frontmatter schemas; it covers the header only. Ordinary Markdown editing does not automatically enable fieldnote validation.
