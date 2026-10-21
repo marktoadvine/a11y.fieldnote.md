@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0 — unreleased
+
+- Make authored Markdown with YAML frontmatter the recommended format.
+- Add a structural checker with Markdown-aware parsing, reference/scope checks, line diagnostics, and JSON reports.
+- Promote the button example and add a minimal Markdown starter.
+- Deprecate YAML/JSON 0.3.0 authoring; retain its schema, examples, validation, rendering, and configuration resolution.
+
 ## 0.3.0 — draft refinement
 
 - Restore component id/platform, optional name/version, and references for design nodes, previews, and source paths.

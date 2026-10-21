@@ -1,6 +1,6 @@
 {
   "name": "accessibility-fieldnote-schema",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -8,14 +8,16 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node tests/fieldnote.test.mjs",
+    "test": "node tests/fieldnote.test.mjs && node tests/markdown.test.mjs",
     "validate": "node tools/fieldnote.mjs validate",
-    "check:examples": "node tools/fieldnote.mjs validate examples/*.fieldnote.yaml examples/*.fieldnote.json examples/base/*.fieldnote.yaml",
-    "check": "npm test && npm run check:examples"
+    "check:examples": "node tools/fieldnote.mjs lint examples/*.fieldnote.md examples/base/*.fieldnote.md && node tools/fieldnote.mjs validate examples/*.fieldnote.yaml examples/*.fieldnote.json examples/base/*.fieldnote.yaml",
+    "check": "npm test && npm run check:examples",
+    "lint": "node tools/fieldnote.mjs lint"
   },
   "dependencies": {
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
+    "mdast-util-from-markdown": "^2.1.0",
     "yaml": "^2.8.1"
   }
 }

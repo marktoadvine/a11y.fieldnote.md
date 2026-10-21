@@ -1,17 +1,5 @@
-# Questions to start a fieldnote
+# Questions and decisions
 
-Pick what helps; add your own questions and IDs. These prompts are not a coverage checklist.
+Write open questions directly in a note's body. Optionally use `Status: ` followed by an inline-code value such as `open`, `decided`, or `not-applicable`. Custom statuses are welcome.
 
-- What identifies or names this component?
-- How can someone operate it with their preferred input?
-- Where does focus go, and where does it return?
-- How are changes, errors, and next steps communicated?
-- What happens with enlarged text, small screens, or different contrast needs?
-- What movement is useful, and how can people reduce or stop it?
-- What must the person using this component supply?
-- Which language, regional, platform, or framework assumptions matter?
-- What remains uncertain or limited?
-
-Write a question while it is unresolved. Add a statement and reason when you have a contextual answer. Both may remain together; use status when it helps distinguish open, decided, or not-applicable notes.
-
-For web modal dialogs, the [W3C APG pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/) is one useful reference. Its guidance is specific to that interaction and does not replace contextual decisions or testing with users and assistive technology.
+Keep the note ID when a question becomes a decision. Update the prose with the decision and rationale; explain why excluded guidance does not apply. See the [button example](../examples/button.fieldnote.md).

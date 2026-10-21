@@ -1,11 +1,7 @@
 # Contributing
 
-Start with a real component example. Keep the format portable and easy for designers and developers to author. Preserve shared field meanings while allowing project-specific context.
+Start with a real component fieldnote. Keep Markdown readable and custom context welcome. See the [format](docs/format.md) and [direction](DIRECTION.md).
 
-The core is a schema version, component identity/platform, and notes with stable IDs. Configurations, references, benchmarks, statuses, and checks provide optional structure. Checks describe procedures; result records remain outside the format.
+For format changes, update examples, documentation, schemas, tests, and changelog together. 0.4.0 is the Markdown draft; preserve deprecated 0.3.0 behavior while its compatibility tools remain available. Use branches and pull requests for changes.
 
-For a format change, update the schema, examples, documentation, and changelog. Coordinate version changes explicitly; this work refines the early 0.3.0 draft. Older snapshots remain in Git history.
-
-Run `npm ci --ignore-scripts` and `npm run check` for schema, tooling, or example changes. [AFS-01](docs/checks.md) describes the checks.
-
-Contributions use the [MIT license](LICENSE).
+With Node.js 22+, run `npm ci --ignore-scripts` and `npm run check`. Include structural edge cases when changing the parser. Do not treat a successful check as accessibility verification.

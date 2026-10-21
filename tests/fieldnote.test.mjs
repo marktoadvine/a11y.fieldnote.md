@@ -83,11 +83,6 @@ test('shipped examples validate, JSON matches YAML, and generated docs stay curr
   for (const name of ['dialogue', 'button']) assert.equal(readFileSync(join(ROOT, `examples/${name}.accessibility.md`), 'utf8'), markdown(load(join(ROOT, `examples/${name}.fieldnote.yaml`))));
 });
 
-test('README starter is valid', () => {
-  const yaml = readFileSync(join(ROOT, 'README.md'), 'utf8').match(/```yaml\n([\s\S]*?)```/)[1];
-  assert.deepEqual(validate(YAML.parse(yaml)), []);
-});
-
 test('component id and platform are required; references accept URLs and paths', () => {
   for (const component of ['dialog', {}, { id: 'dialog' }, { platform: 'web' }, { id: '', platform: 'web' }, { id: 'dialog', platform: ' ' }]) {
     assert.ok(validate({ ...minimal(), component }).length, JSON.stringify(component));

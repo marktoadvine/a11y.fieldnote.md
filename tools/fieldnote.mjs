@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 import YAML from 'yaml';
+import { lintFiles } from './markdown.mjs';
 import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 
@@ -154,12 +155,12 @@ export function markdown(record, configuration) {
   return lines.join('\n');
 }
 
-const usage = 'Usage: node tools/fieldnote.mjs validate|render|resolve FILE... [--configuration ID]';
+const usage = 'Usage: node tools/fieldnote.mjs lint FILE.fieldnote.md... [--json] (legacy: validate|render|resolve FILE [--configuration ID])';
 export function main(args = process.argv.slice(2)) {
   let options;
   try {
     options = parseArgs({ args, options: {
-      configuration: { type: 'string' }, help: { type: 'boolean', short: 'h' },
+      json: { type: 'boolean' }, configuration: { type: 'string' }, help: { type: 'boolean', short: 'h' },
     }, allowPositionals: true });
   } catch (error) {
     console.error(error.message);
@@ -171,12 +172,17 @@ export function main(args = process.argv.slice(2)) {
   }
   const [command, ...files] = options.positionals;
   const { configuration } = options.values;
-  if (!['validate', 'render', 'resolve'].includes(command) || !files.length ||
+  if (command === 'lint' || (command === 'validate' && files.length && files.every(f => f.endsWith('.md')))) {
+    if (!files.length || configuration !== undefined) { console.error(usage); return 2; }
+    return lintFiles(files, options.values.json);
+  }
+  if (options.values.json || !['validate', 'render', 'resolve'].includes(command) || !files.length ||
       (configuration !== undefined && (command === 'validate' || !configuration)) ||
       (command === 'resolve' && (!configuration || files.length !== 1))) {
     console.error(usage);
     return 2;
   }
+  console.error('Deprecated: YAML/JSON 0.3.0; author new fieldnotes as Markdown 0.4.0.');
   let failed = false;
   for (const file of files) {
     try {

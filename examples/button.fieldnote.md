@@ -1,5 +1,5 @@
 ---
-schemaVersion: "markdown-prototype-1"
+schemaVersion: "0.4.0"
 component:
   id: button
   name: Action button
@@ -28,7 +28,7 @@ configurations:
 
 # Action button — accessibility fieldnotes
 
-An authoring prototype for a web action button. Design, preview, and code
+An illustrative fieldnote for a web action button. Design, preview, and code
 references above are placeholders. These notes describe intended behavior and
 open questions, not a tested implementation or a conformance assessment.
 
@@ -148,7 +148,9 @@ Check it on the adjacent surfaces used by the component.
 - Notes: `focus-indicator`, `secondary-focus-color`
 - Method: `assisted`
 - Applies to: `secondary`
-- Test: `./tests/button-focus.test.ts` (illustrative reference)
+- Test: `./tests/button-focus.test.ts`
+
+The test path above is an illustrative reference.
 
 Once a token is proposed, measure the focus indicator against the secondary
 button's adjacent surfaces. Use the cited benchmark to interpret the
