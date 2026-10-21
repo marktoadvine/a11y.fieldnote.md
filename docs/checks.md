@@ -1,15 +1,5 @@
-# Repository checks
+# Checks
 
-## AFS-01 — Schema, examples, and export integrity
+Add an optional `## Checks` section. Each `###` entry starts with metadata: `ID`, `Notes` (one or more note IDs), and `Method`, all using inline-code values. Optional `Applies to` restricts scope and `Test` references an automated test. Methods such as `manual`, `automated`, and `assisted` are suggestions; custom methods work.
 
-Checks on AFS itself, not component accessibility:
-
-- Required version and component identity/platform.
-- Custom fields, multilingual IDs, optional statuses, and status requirements.
-- Component references, benchmarks, and check definitions.
-- Duplicate IDs, dangling references, and note/check configuration scope.
-- Additive selection, unknown configurations, and source immutability.
-- Complete and selected Markdown preservation of metadata and test references.
-- CLI behavior, examples, generated docs, and local documentation links.
-
-Run `npm ci --ignore-scripts` then `npm run check`.
+Write the procedure below the list. Checks describe what someone should do; keep execution results outside the fieldnote. See the [button](../examples/button.fieldnote.md) and [format](format.md).

@@ -1,8 +1,0 @@
-schemaVersion: 0.3.0
-component:
-  id: my-component
-  platform: web
-notes:
-- id: accessible-name
-  question: What gives this component its accessible name?
-  status: open

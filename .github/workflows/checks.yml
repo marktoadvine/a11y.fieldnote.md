@@ -2,7 +2,7 @@ name: AFS checks
 on: [push, pull_request]
 jobs:
   afs-01:
-    name: AFS-01 — Schema, examples, and export integrity
+    name: AFS-01 — Markdown structure and examples
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-      - name: Install validator dependencies
+      - name: Install checker dependencies
         run: npm ci --ignore-scripts
-      - name: Verify schema, examples, and rendering
+      - name: Verify Markdown structure and examples
         run: npm run check

@@ -1,84 +1,48 @@
-# Accessibility Fieldnote Schema
+# Accessibility Fieldnote Schema (AFS)
 
-Portable accessibility notes for designers and developers. Keep choices, open questions, and check procedures beside a component through handoff and reuse. Readable by people and software, independent of frameworks and documentation tools.
+Portable, accessibility-first documentation for designers and developers. Write decisions, questions, rationale, and check procedures in Markdown; keep a small YAML header for component context.
 
-**Draft 0.3.0 · experimental.** Fieldnotes document context and intent; they do not certify accessibility or conformance.
+**0.4.0 draft: author fieldnotes in Markdown.**
 
-## Start here
+Copy the [starter](examples/base/component.fieldnote.md) into your project as `component.fieldnote.md`:
 
-Copy [the starter](examples/base/component.fieldnote.yaml):
-
-```yaml
-schemaVersion: "0.3.0"
+````markdown
+---
+schemaVersion: "0.4.0"
 component:
-  id: dialog
+  id: button
   platform: web
-notes:
-  - id: initial-focus
-    topic: focus
-    status: decided
-    statement: Focus the heading when this dialog opens.
-    reason: Users need context before choosing an action.
-  - id: accessible-name
-    status: open
-    question: What will name this dialog?
-```
+---
 
-The focus choice is contextual, not a universal dialog instruction. No installation is required.
+# Button accessibility
 
-## VS Code hints and error checking
+## Notes
 
-Install [YAML by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml), then add this comment at the top of your `.fieldnote.yaml` file:
+### Give the action a name
 
-```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/marktoadvine/accessibility-fieldnote-schema/main/schema/fieldnote.schema.json
-```
+- ID: `visible-label`
+- Status: `open`
 
-VS Code provides field suggestions and flags schema errors, such as missing required fields or incorrect types. For JSON files, use the same URL in a top-level `$schema` property; no extension is needed. Use the CLI for duplicate IDs and note/configuration reference checks. Custom fields remain allowed.
+What visible label best describes this action?
+````
 
-## The structure
+Add only what you need: component references, configurations, benchmarks, note status, or checks. Custom fields, sections, vocabulary, and languages are welcome. See the [button example](examples/button.fieldnote.md) and [format](docs/format.md).
 
-| Field | Use |
-| --- | --- |
-| `schemaVersion` | Required format version: `"0.3.0"` |
-| `component` | Required `id` and `platform`; optional name, version, and references |
-| `notes` | Notes with stable IDs, unique within this file |
-| `configurations` | Optional named variants or states |
-| `benchmarks` | Optional source names, versions, and URLs |
-| `checks` | Optional procedures linked to note IDs |
+## Check the structure
 
-Platform is your own term, such as `web`, `ios`, `android`, or `desktop`. Component `references` accepts objects with a `url` or a `path`, and optional `kind` and `label`. Link Figma nodes, Storybook previews, source directories, or any other context. Paths are relative to the fieldnote file; tools do not fetch or verify the destinations.
-
-Notes may include `topic`, `statement`, `question`, `reason`, `references`, `status`, and `appliesTo`. Keep IDs stable; any language or naming convention is welcome.
-
-- `open`: an unresolved choice or question.
-- `decided`: requires a `statement`.
-- `not-applicable`: requires a `reason`.
-
-Status is optional; omission means unspecified. Custom statuses, topics, and fields are welcome. Add owner, language, framework, local guidance, or other context without changing shared field meanings. Empty notes and ID-only entries are placeholders, not completed guidance.
-
-## Variants and checks
-
-Declare `configurations` with IDs and names. Use `appliesTo: [secondary]` on a note or check to restrict it. Without `appliesTo`, it covers every documented configuration. Items are additive, with no overrides or implied combinations. See [configuration rules](docs/configurations.md).
-
-Each check has an `id`, `notes` (note IDs), `method`, and `procedure`; `test` can point to a test file or URL. A check can only cover configurations supported by every note it references. Checks define how to verify behavior; they do not record a passed result.
-
-Benchmarks preserve the source and version informing a record, such as WCAG 2.2. They make no claim of coverage or conformance. See the [button](examples/button.fieldnote.yaml), [dialog](examples/dialogue.fieldnote.yaml), and [custom context](examples/custom.fieldnote.yaml) examples.
-
-## Use it in a project
-
-Link the fieldnote from component documentation and review it when behavior changes. Generate a readable view from the file to maintain one source. [Suggested questions](docs/questions.md) can help you start.
-
-Optional CLI, using Node.js 22+:
+With Node.js 22+ in this repository:
 
 ```sh
 npm ci --ignore-scripts
-node tools/fieldnote.mjs validate examples/button.fieldnote.yaml
-node tools/fieldnote.mjs render examples/button.fieldnote.yaml
-node tools/fieldnote.mjs render examples/button.fieldnote.yaml --configuration secondary
-node tools/fieldnote.mjs resolve examples/button.fieldnote.yaml --configuration secondary
+npm run lint -- /path/to/button.fieldnote.md
 ```
 
-JSON and YAML represent the same model. The optional `$schema` field supports editor setup; `schemaVersion` is required. See [validation](docs/validation.md). Schema validity does not establish accessibility, and accepting custom fields means it cannot catch every typo.
+The checker catches malformed metadata, duplicate IDs, and broken note/configuration references. It does not test accessibility or claim conformance. Write in any Markdown editor; VS Code is optional. [Checker details](docs/validation.md).
 
-[Direction](DIRECTION.md) · [Contributing](CONTRIBUTING.md) · [MIT license](LICENSE)
+## More
+
+- [Configurations](docs/configurations.md)
+- [Checks](docs/checks.md)
+- [Questions and decisions](docs/questions.md)
+- [Direction](DIRECTION.md)
+- [Contributing](CONTRIBUTING.md)
