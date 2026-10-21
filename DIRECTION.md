@@ -1,7 +1,9 @@
 # Direction
 
-AFS is portable accessibility documentation that designers and developers can author and use immediately. Markdown carries the human explanation; a small metadata vocabulary keeps IDs and relationships usable by tools.
+Accessibility Fieldnotes is portable accessibility documentation that designers and developers can author and use immediately. Markdown carries the human explanation; a small metadata vocabulary keeps IDs and relationships usable by tools.
 
 Keep the required structure small: version, component identity/platform, a notes section, and entry IDs. References, configurations, benchmarks, statuses, and checks are optional. Support custom context, languages, platforms, standards, and workflows.
 
 The checker checks structure. Accessibility judgment and verification results remain outside its claims. Prioritize real authoring examples over more configuration or tooling. Markdown 0.4.0 is the current draft.
+
+Agents use fieldnotes to understand intent and plan checks alongside applicable accessibility standards. Report evidence and gaps against stable note IDs, with results kept separately. “Fieldnotes” is the shorthand; the schema is supporting tooling.

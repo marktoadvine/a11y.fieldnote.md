@@ -1,6 +1,6 @@
-# Accessibility Fieldnote Schema (AFS)
+# Accessibility Fieldnotes
 
-Portable, accessibility-first documentation for designers and developers. Write decisions, questions, rationale, and check procedures in Markdown; keep a small YAML header for component context.
+Portable accessibility intent and check instructions for people and agents. Write decisions, questions, rationale, and check procedures in Markdown; keep a small YAML header for component context.
 
 **0.4.0 draft: author fieldnotes in Markdown.**
 
@@ -27,6 +27,12 @@ What visible label best describes this action?
 ````
 
 Add only what you need: component references, configurations, benchmarks, note status, or checks. Custom fields, sections, vocabulary, and languages are welcome. See the [button example](examples/button.fieldnote.md) and [format](docs/format.md).
+
+## Use with agents
+
+Ask your agent to read the relevant `*.fieldnote.md` files before running accessibility checks. Fieldnotes explain intended behavior, variants, open questions, and check procedures. They supplement applicable accessibility standards; missing notes do not mean missing obligations.
+
+See [agent guidance](docs/agents.md) for interpreting scope and reporting findings against stable note IDs. Use “fieldnotes” for short.
 
 ## Check the structure
 
