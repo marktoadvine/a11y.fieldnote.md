@@ -15,6 +15,3 @@ Errors cover frontmatter/version/identity, malformed required metadata, duplicat
 
 Write in any Markdown editor. VS Code previews the prose; run the checker in its terminal to catch document errors. The [frontmatter JSON Schema](../schema/frontmatter.schema.json) is available to editors/extensions that support YAML frontmatter schemas; it covers the header only. Ordinary Markdown editing does not automatically enable AFS validation.
 
-## Deprecated 0.3.0 support
-
-Existing YAML/JSON files still use `node tools/fieldnote.mjs validate FILE`, `render FILE`, or `resolve FILE --configuration ID`. These commands print a deprecation notice to stderr. The [0.3.0 schema](../schema/fieldnote.schema.json) remains at its existing URL. New Markdown needs no render step; its checker does not export or resolve configuration-specific views.

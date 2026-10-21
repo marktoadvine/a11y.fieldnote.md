@@ -96,5 +96,6 @@ test('CLI checks all files, emits JSON, preserves source, and handles usage/read
   assert.equal(cli('lint',join(dir,'missing.md')).status,1);
   assert.equal(cli('lint','examples/button.fieldnote.yaml').status,1);
   for(const args of [['lint'],['lint',good,'--configuration','a'],['lint',good,'--unknown']]) assert.equal(cli(...args).status,2);
-  assert.match(cli('validate','examples/button.fieldnote.yaml').stderr,/Deprecated/);
+  for (const command of ['render', 'resolve']) assert.equal(cli(command,good).status,2);
+  assert.equal(cli('--help').status,0);
 });

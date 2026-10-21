@@ -2,7 +2,7 @@
 
 Portable, accessibility-first documentation for designers and developers. Write decisions, questions, rationale, and check procedures in Markdown; keep a small YAML header for component context.
 
-**0.4.0 draft: Markdown is the recommended authoring format.** YAML/JSON 0.3.0 is deprecated; its schema and existing commands remain available.
+**0.4.0 draft: author fieldnotes in Markdown.**
 
 Copy the [starter](examples/base/component.fieldnote.md) into your project as `component.fieldnote.md`:
 
@@ -46,5 +46,3 @@ The checker catches malformed metadata, duplicate IDs, and broken note/configura
 - [Questions and decisions](docs/questions.md)
 - [Direction](DIRECTION.md)
 - [Contributing](CONTRIBUTING.md)
-
-Legacy `.fieldnote.yaml`, `.fieldnote.json`, and generated `.accessibility.md` examples remain as 0.3.0 references. New authored documents use `.fieldnote.md`.

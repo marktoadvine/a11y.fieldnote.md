@@ -117,7 +117,7 @@ export function lintMarkdown(source) {
 export function lintFiles(files, json = false) {
   const reports = files.map(file => {
     try {
-      if (!file.endsWith('.md')) throw new Error('Use .fieldnote.md for Markdown; validate still supports deprecated YAML/JSON.');
+      if (!file.endsWith('.md')) throw new Error('Use a Markdown file (.fieldnote.md).');
       return { file, diagnostics: lintMarkdown(readFileSync(file, 'utf8')).diagnostics };
     } catch (error) { return { file, diagnostics: [{ severity: 'error', code: 'file', line: 1, message: error.message }] }; }
   });

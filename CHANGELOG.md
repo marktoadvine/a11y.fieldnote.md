@@ -5,7 +5,7 @@
 - Make authored Markdown with YAML frontmatter the recommended format.
 - Add a structural checker with Markdown-aware parsing, reference/scope checks, line diagnostics, and JSON reports.
 - Promote the button example and add a minimal Markdown starter.
-- Deprecate YAML/JSON 0.3.0 authoring; retain its schema, examples, validation, rendering, and configuration resolution.
+- Remove standalone YAML/JSON tooling, schema, examples, generated views, and the prototype directory. Earlier formats remain in Git history.
 
 ## 0.3.0 — draft refinement
 

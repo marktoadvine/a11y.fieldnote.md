@@ -8,9 +8,9 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node tests/fieldnote.test.mjs && node tests/markdown.test.mjs",
+    "test": "node tests/markdown.test.mjs",
     "validate": "node tools/fieldnote.mjs validate",
-    "check:examples": "node tools/fieldnote.mjs lint examples/*.fieldnote.md examples/base/*.fieldnote.md && node tools/fieldnote.mjs validate examples/*.fieldnote.yaml examples/*.fieldnote.json examples/base/*.fieldnote.yaml",
+    "check:examples": "node tools/fieldnote.mjs lint examples/*.fieldnote.md examples/base/*.fieldnote.md",
     "check": "npm test && npm run check:examples",
     "lint": "node tools/fieldnote.mjs lint"
   },
