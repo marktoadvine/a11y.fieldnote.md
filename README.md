@@ -4,6 +4,10 @@ Portable accessibility notes for designers and developers. Keep choices, open qu
 
 **Draft 0.3.0 · experimental.** Fieldnotes document context and intent; they do not certify accessibility or conformance.
 
+## Markdown authoring experiment
+
+Try the [Markdown button fieldnote](prototypes/markdown/button.fieldnote.md) and its [proposed conventions](prototypes/markdown/README.md). This is an authoring prototype; the current YAML/JSON schema and CLI are unchanged.
+
 ## Start here
 
 Copy [the starter](examples/base/component.fieldnote.yaml):
