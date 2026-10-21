@@ -4,7 +4,7 @@ Portable accessibility intent and check instructions for people and agents. Writ
 
 **0.4.0 draft: author fieldnotes in Markdown.**
 
-Copy the [starter](examples/base/component.fieldnote.md) into your project as `component.fieldnote.md`:
+Copy the [starter](examples/base/component.fieldnote.md) into your project as `fieldnotes/component.fieldnote.md`:
 
 ````markdown
 ---
@@ -30,7 +30,9 @@ Add only what you need: component references, configurations, benchmarks, note s
 
 ## Use with agents
 
-Ask your agent to read the relevant `*.fieldnote.md` files before running accessibility checks. Fieldnotes explain intended behavior, variants, open questions, and check procedures. They supplement applicable accessibility standards; missing notes do not mean missing obligations.
+Keep fieldnotes in a `fieldnotes/` directory at your project root, or alongside the components they describe. No manifest or configuration is required. Add the [copyable instruction](docs/agents.md#repository-layout-and-discovery) to your project's `AGENTS.md` so agents know where to look.
+
+Treat accessibility as part of planning, implementation, and verification. Ask your agent to read the relevant `*.fieldnote.md` files before planning or changing UI, and use them again when running accessibility checks. Fieldnotes explain intended behavior, variants, open questions, and check procedures. They supplement applicable accessibility standards; missing notes do not mean missing obligations.
 
 See [agent guidance](docs/agents.md) for interpreting scope and reporting findings against stable note IDs. Use “fieldnotes” for short.
 
